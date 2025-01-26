@@ -13,9 +13,9 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-        <h1> Here are users for APPTWO</h1>
+        <h1> Please Sign UP here </h1>
 
-        {% if users %}
+        {% comment %} {% if users %}
         <ol> 
             {% for person in users%}
             <li>USER INFO </li>
@@ -26,8 +26,15 @@
             </ul>
             {% endfor %}
         </ol>
-
-        {% endif %}
+        
+        {% endif %} {% endcomment %}
+        <form method="POST">
+        
+            {{form.as_p}}
+            {% csrf_token %}
+            <input type="submit" value="Submit">
+        </form>
+        
         
         <script src="" async defer></script>
     </body>

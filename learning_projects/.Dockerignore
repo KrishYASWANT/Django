@@ -1,0 +1,16 @@
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore environment files
+.env
+.vscode/
+
+# Ignore media and static files (optional, if served externally)
+media/
+staticfiles/
+
+# Ignore SQLite database file (important to persist data)
+db.sqlite3

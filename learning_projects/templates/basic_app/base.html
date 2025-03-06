@@ -24,7 +24,7 @@
                 <a class="nav-link text-white" href="{% url 'basic_app:registration' %}">Registration</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white" href="#">Pricing</a>
+                <a class="nav-link text-white" href="{% url 'basic_app:welcome' %}">Welcome</a>
               </li>
               {% if user.is_authenticated %}
               <li class="nav-item">

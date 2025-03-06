@@ -23,4 +23,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('basic_app/', include('basic_app.urls')),
     path('logout/', views.user_logout, name='logout'),
+    
 ]
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

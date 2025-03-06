@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from basic_app.form import UserForm, UserProfileInfoForm
 
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse  # Updated import
+from basic_app.models import UserProfileInfo
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -11,10 +12,24 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request, 'basic_app/index.html')
 
+# Added welcome
+def welcome(request):
+    return render(request  ,'basic_app/welcome.html', {'user': request.user})
+
+@login_required
+def update_profile_pic(request):
+    if request.method == "POST" and request.FILES.get('profile_pic'):
+        user_profile = UserProfileInfo.objects.get(user=request.user)  # ✅ Correct: Using the Model
+        user_profile.profile_pic = request.FILES['profile_pic']
+        user_profile.save()
+        return redirect('basic_app:welcome')  # Redirect back to welcome page
+    
+    return redirect('basic_app:welcome')  # If no file is uploaded, stay on the same page
+
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('index')) 
 
 def registed(request):
     
@@ -61,7 +76,9 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request,user)
-                return HttpResponseRedirect(reverse('index'))
+                return HttpResponseRedirect(reverse('basic_app:welcome'))
+
+                #return HttpResponseRedirect(reverse('welcome'))  #index -> welcome
             else:
                 HttpResponse("Account Not Active")
         else:

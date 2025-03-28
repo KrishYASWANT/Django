@@ -14,11 +14,11 @@ class Category(models.Model):
         
         
 class Product(models.Model):
-    name = models.CharField(max_length=50)
-    price = models.DecimalField(default=0 ,decimal_places=2, max_digits= 10)
-    catagory = models.ForeignKey(Category,on_delete=models.CASCADE, default=1)
-    discription= models.CharField(max_length=255, blank=True, null= True, default= ' ')
-    image = models.ImageField(upload_to='uploads/product/')
+    name        = models.CharField(max_length=50)
+    price       = models.DecimalField(default=0 ,decimal_places=2, max_digits= 10)
+    category    = models.ForeignKey(Category,on_delete=models.CASCADE, default=1)
+    discription = models.CharField(max_length=255, blank=True, null= True, default= ' ')
+    image       = models.ImageField(upload_to='uploads/product/')
     
     # Add sale stuff
     on_sale = models.BooleanField(default=False)
@@ -36,13 +36,13 @@ class Customer(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 class Order(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
-    address = models.CharField(max_length=255)
-    phone = models.CharField(max_length=10)
-    date = models.DateField(default=datetime.datetime.today)
-    quantity = models.IntegerField(default=1)
-    status = models.BooleanField(default=False)
+    product     = models.ForeignKey(Product, on_delete=models.CASCADE)
+    customer    = models.ForeignKey(Customer,on_delete=models.CASCADE)
+    address     = models.CharField(max_length=255)
+    phone       = models.CharField(max_length=10)
+    date        = models.DateField(default=datetime.datetime.today)
+    quantity    = models.IntegerField(default=1)
+    status      = models.BooleanField(default=False)
     
     
     

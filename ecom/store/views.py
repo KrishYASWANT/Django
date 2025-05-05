@@ -7,7 +7,8 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UserInfoForm
 from django import forms
 from django.db.models import Q
-
+import json
+from cart.cart import Cart
 
 def search(request):
     # Determine if they filled out the form
@@ -81,6 +82,21 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            
+            # Do some shopping cart stuff
+            current_user = Profile.objects.get(user__id=request.user.id)
+			# Get their saved cart from database
+            saved_cart = current_user.old_cart
+			# Convert database string to python dictionary
+            if saved_cart:
+                # Convert to dictionary using JSON
+                converted_cart = json.loads(saved_cart)
+				# Add the loaded cart dictionary to our session
+				# Get the cart
+                cart = Cart(request)
+				# Loop thru the cart and add the items from the database
+                for key,value in converted_cart.items():
+                    cart.db_add(product=key, quantity=value)
             messages.success(request, ("You have been logged in"))
             return redirect('home')
         else:
@@ -138,29 +154,10 @@ def update_password(request):
         messages.success(request, "You Must Be Logged In To Access That Page!!")
         return redirect('home')
 
-   
-
-
-    
     
 def product(request,pk):
     product = Product.objects.get(id=pk)
     return render(request , 'product.html', {'product': product})
-
-""" def category(request , foo):
-    # replace spaces with hyphens
-    foo = foo.replace('-',' ')
-    print(f"Category lookup for: {foo}")
-    # Grab the Category from the url
-    try:
-        # Look Up for The Category
-        category = Category.objects.get(name=foo)
-        products = Product.objects.filter(category = category)
-        return render(request, 'category.html',{'products':products, 'category':category})
-        
-    except:
-        messages.success(request, ("OOPS!! , That Category Doen't Exists...... "))
-        return redirect('home') """
     
 def category(request, foo):
     try:

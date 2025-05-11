@@ -382,9 +382,14 @@ select:disabled {
 button,
 [type=button],
 [type=reset],
+/* [type=submit] {
+  -webkit-appearance: button;
+} */
 [type=submit] {
   -webkit-appearance: button;
+  appearance: button;
 }
+
 button:not(:disabled),
 [type=button]:not(:disabled),
 [type=reset]:not(:disabled),
@@ -439,9 +444,16 @@ legend + * {
   height: auto;
 }
 
+/* [type=search] {
+  outline-offset: -2px;
+  -webkit-appearance: textfield;
+} */
+
+
 [type=search] {
   outline-offset: -2px;
   -webkit-appearance: textfield;
+  appearance: textfield;
 }
 
 /* rtl:raw:
@@ -459,10 +471,21 @@ legend + * {
 ::-webkit-color-swatch-wrapper {
   padding: 0;
 }
+/* here */
+/* ::file-selector-button {
+  font: inherit;
+  -webkit-appearance: button;
+} */
+
 
 ::file-selector-button {
   font: inherit;
   -webkit-appearance: button;
+  appearance: button;
+  padding: 0.5em 1em;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  cursor: pointer;
 }
 
 output {
